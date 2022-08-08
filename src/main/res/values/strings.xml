@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">BananaPorts</string>
+    <string name="app_logo">APPLogo</string>
+    <string name="app_version">Version 2.0</string>
+    <string name="power_by">Powered by  </string>
+    <string name="banana_team">Bananas Team</string>
+
+    <string name="home_toolbar">BananaPorts</string>
+    <string name="text_home_bar_bluetooth">Bluetooth</string>
+    <string name="text_home_bar_wifi">Wifi</string>
+    <string name="text_home_bar_me">About</string>
+
+    <string name="home_bluetooth_isOn">Bluetooth State</string>
+    <string name="home_wifi_isOn">Wifi State</string>
+    <string name="home_isDiscovering">Discovering</string>
+    <string name="home_button_switch_on">Turn on BlueTooth</string>
+    <string name="fragment_button_wifi_switch_on">Connect</string>
+    <string name="home_button_switch_off">Turn off</string>
+    <string name="home_button_discover">Discover</string>
+    <string name="home_button_discover_ing">Discover(OFF)</string>
+    <string name="home_listview_listview">Devices Found</string>
+    <string name="fragment_wifi_isConnected">SSID</string>
+    <string name="fragment_button_wifi_switch_off">Disconnect</string>
+    <string name="fragment_text_wifi_text">Via Data</string>
+    <string name="fragment_wifi_ip">IP Address</string>
+    <string name="fragment_wifi_port">port</string>
+    <string name="frgament_wifi_updateInfo">Update</string>
+    <string name="fragment_wifi_connect">Connect</string>
+    <string name="frgament_wifi_connect_statue">connection</string>
+
+
+
+</resources>

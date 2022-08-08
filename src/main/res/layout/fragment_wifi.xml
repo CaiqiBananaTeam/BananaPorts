@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Wifi Information View -->
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:text="@string/home_wifi_isOn"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/fragment_wifi_state"
+                android:textSize="16sp"
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textColor="@color/teal_200"
+                android:gravity="center"/>
+        </LinearLayout>
+        <View
+            android:background="@color/blue_dai2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="@string/fragment_wifi_isConnected"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/fragment_wifi_ssid"
+                android:textSize="16sp"
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textColor="@color/teal_200"
+                android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Wifi Station Ip Configuration -->
+    <View
+        android:background="@color/blue_dai2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical" >
+
+        <!-- Wifi State Info Edit & Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <!-- Wifi Edit Text -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:orientation="vertical">
+
+                <!-- EditText 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+                    <TextView
+                        android:text="@string/fragment_wifi_ip"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:gravity="center"/>
+                    <EditText
+                        android:id="@+id/fragment_wifi_edit_ip"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7"
+                        android:autofillHints="80" />
+                </LinearLayout>
+                <!-- EditText 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+                    <TextView
+                        android:text="@string/fragment_wifi_port"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:gravity="center"/>
+                    <EditText
+                        android:id="@+id/fragment_wifi_edit_port"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7"
+                        android:autofillHints="80" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Submit Button -->
+            <View
+                android:layout_margin="10dp"
+                android:background="@color/blue_dai"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+                <Button
+                    android:id="@+id/wifi_submit_button"
+                    android:text="@string/frgament_wifi_updateInfo"
+                    android:layout_margin="2dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Instant Wifi Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+            <TextView
+                android:text="@string/fragment_wifi_ip"
+                android:textSize="12sp"
+                android:textColor="@color/blue_dai2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/fragment_wifi_instantIP"
+                android:text="@string/fragment_wifi_ip"
+                android:textSize="12sp"
+                android:textColor="@color/blue_dai2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:gravity="center"/>
+            <TextView
+                android:text="@string/fragment_wifi_port"
+                android:textSize="12sp"
+                android:textColor="@color/blue_dai2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/fragment_wifi_instantPort"
+                android:text="@string/fragment_wifi_port"
+                android:textSize="12sp"
+                android:textColor="@color/blue_dai2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Data Transport Set UI -->
+    <View
+        android:background="@color/blue_dai2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+            <TextView
+                android:text="@string/frgament_wifi_connect_statue"
+                android:textSize="14sp"
+                android:textColor="@color/blue_dai"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4" />
+            <TextView
+                android:id="@+id/fragment_wifi_connectStatue"
+                android:textSize="14sp"
+                android:textColor="@color/blue_dai2"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"/>
+            <Button
+                android:id="@+id/fragment_wifi_connectDevice"
+                android:text="@string/fragment_wifi_connect"
+                android:textSize="18sp"
+                android:textColor="@color/blue_dai2"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
