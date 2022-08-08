@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/connection_text_devices"
+            android:text="@string/app_name"
+            android:textSize="16sp"
+            android:textColor="@color/blue_dai"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:gravity="left|start|bottom"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            tools:ignore="RtlHardcoded" />
+        <TextView
+            android:id="@+id/connection_text_address"
+            android:text="@string/app_name"
+            android:textSize="14sp"
+            android:textColor="@color/blue_dai"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="end|bottom|right"
+            android:padding="2dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            tools:ignore="RtlHardcoded,SmallSp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <SeekBar
+            android:min="-128"
+            android:max="127"
+            android:id="@+id/seekBar1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/textView01"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="TextView"
+            android:textColor="@color/blue_dai2"
+            tools:ignore="HardcodedText" />
+
+        <SeekBar
+            android:min="-128"
+            android:max="127"
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/textView02"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="TextView"
+            android:textColor="@color/blue_dai2"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/connection_text_receive"
+            android:text="Receiving"
+            android:textColor="@color/blue_dai"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+</LinearLayout>

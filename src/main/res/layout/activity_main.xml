@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue_dai"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/home_frame_layout"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <View
+        android:background="@color/pile"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- The Bottom Tab Bar -->
+    <RadioGroup
+        android:id="@+id/home_bar_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:checkedButton="@id/bar_home_radio_bluetooth">
+        <RadioButton
+            android:id="@+id/bar_home_radio_bluetooth"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_home_bar_bluetooth"
+            android:drawableTop="@drawable/home_radio_selector_home"
+            android:textColor="@color/home_radio_selector_text_color"
+            android:button="@null"/>
+        <RadioButton
+            android:id="@+id/bar_home_radio_wifi"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_home_bar_wifi"
+            android:drawableTop="@drawable/home_radio_selector_me"
+            android:textColor="@color/home_radio_selector_text_color"
+            android:button="@null"/>
+        <RadioButton
+            android:id="@+id/bar_home_radio_me"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_home_bar_me"
+            android:drawableTop="@drawable/home_radio_selector_me"
+            android:textColor="@color/home_radio_selector_text_color"
+            android:button="@null"/>
+
+    </RadioGroup>
+
+</LinearLayout>
