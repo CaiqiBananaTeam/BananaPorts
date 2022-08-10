@@ -14,7 +14,7 @@
     <string name="app_logo">应用图标</string>
     <string name="power_by">Powered by</string>
     <string name="banana_team">香蕉团队</string>
-    <string name="app_version">Version 2.0</string>
+    <string name="app_version">Version 2.1</string>
     <string name="home_wifi_isOn">WLAN状态</string>
     <string name="fragment_button_wifi_switch_on">开始连接</string>
     <string name="home_isDiscovering">搜索状态</string>

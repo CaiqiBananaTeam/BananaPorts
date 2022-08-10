@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BananaPorts</string>
     <string name="app_logo">APPLogo</string>
-    <string name="app_version">Version 2.0</string>
+    <string name="app_version">Version 2.1</string>
     <string name="power_by">Powered by  </string>
     <string name="banana_team">Bananas Team</string>
 
