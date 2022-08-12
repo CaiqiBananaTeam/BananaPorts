@@ -18,7 +18,7 @@ class AboutFragment: Fragment() {
     private lateinit var buttonOpenSourceAddress: Button
     private lateinit var buttonOpenSourceLicense: Button
     private lateinit var buttonPrivacyPolicy: Button
-
+    private lateinit var buttonUserPolicy: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +52,7 @@ class AboutFragment: Fragment() {
         buttonOpenSourceAddress = view.findViewById(R.id.about_opensource_address)
         buttonOpenSourceLicense = view.findViewById(R.id.about_opensource_license)
         buttonPrivacyPolicy = view.findViewById(R.id.about_privacy_policy)
+        buttonUserPolicy = view.findViewById(R.id.about_using_license)
     }
     private fun setData() {
         val intent = Intent(Intent.ACTION_VIEW)
@@ -67,5 +68,10 @@ class AboutFragment: Fragment() {
             intent.data = Uri.parse("https://flatig.vip/assets/b-privacy.html")
             startActivity(intent)
         }
+        buttonUserPolicy.setOnClickListener {
+            intent.data = Uri.parse("https://flatig.vip/assets/bu-privacy.html")
+            startActivity(intent)
+        }
+
     }
 }

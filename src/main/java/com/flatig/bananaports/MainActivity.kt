@@ -1,11 +1,15 @@
 package com.flatig.bananaports
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -23,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initView()
+
         toolbar.title = resources.getString(R.string.home_toolbar)
         setSupportActionBar(toolbar)
-        permissionRequest()
         fragmentReplace(BluetoothFragment(),resources.getString(R.string.text_home_bar_bluetooth))
         radioGroup.setOnCheckedChangeListener { _, checkedID ->
             when (checkedID) {
@@ -41,16 +45,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        if (isFirstRun(this)) {
+            AlertDialog.Builder(this).apply {
+                setTitle(resources.getString(R.string.main_dialog_policy))
+                setMessage(resources.getString(R.string.main_dialog_message))
+                setCancelable(false)
+                setPositiveButton(resources.getString(R.string.main_dialog_agree)) { _, _ ->
+                    alreadyRan(this.context)
+                    permissionRequest()
+                }
+                setNegativeButton(resources.getString(R.string.main_dialog_exit)) { _, _ ->
+                    finish()
+                }
+                setNeutralButton(resources.getString(R.string.main_dialog_user_policy)) { _, _ ->
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse("https://flatig.vip/assets/privacy.html")
+                    startActivity(intent)
+                }
+                show()
+            }
+        } else {
+            permissionRequest()
+        }
         fragmentReplace(BluetoothFragment(),resources.getString(R.string.text_home_bar_bluetooth))
         super.onResume()
     }
-
+    // Function First Run
+    private fun isFirstRun(context: Context): Boolean {
+        val checkRunVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE)
+        return checkRunVar.getInt("runFirst", 0) == 0
+    }
+    // Function Remember Run Times
+    private fun alreadyRan(context: Context) {
+        val runVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE).edit()
+        runVar.putInt("runFirst", 6)
+        runVar.apply()
+    }
     // Function to initial View
     private fun initView() {
         toolbar = findViewById(R.id.toolbar)
         radioGroup = findViewById(R.id.home_bar_radio_group)
     }
-
     // Function to request permissions
     private fun permissionRequest() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -94,7 +129,6 @@ class MainActivity : AppCompatActivity() {
                 }
         }
     }
-
     // Function to replace fragments
     private fun fragmentReplace(
         fragment: Fragment,

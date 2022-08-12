@@ -35,6 +35,12 @@
     <string name="string_num">01</string>
     <string name="string_ip">192.168.4.1</string>
     <string name="string_port">8081</string>
+    <string name="main_dialog_policy">Policy</string>
+    <string name="main_dialog_message">You can only use the application after you read and commit our using-ploicy and privacy-policy. If you does not agree, please exit.</string>
+    <string name="main_dialog_user_policy">Using Policy</string>
+    <string name="main_dialog_agree">Agreed</string>
+    <string name="main_dialog_exit">Exit</string>
+    <string name="about_user_policy">User Policy</string>
 
 
 </resources>

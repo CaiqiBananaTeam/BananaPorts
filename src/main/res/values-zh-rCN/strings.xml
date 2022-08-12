@@ -34,4 +34,10 @@
     <string name="string_num">01</string>
     <string name="string_port">8081</string>
     <string name="string_ip">192.168.4.1</string>
+    <string name="main_dialog_policy">使用协议</string>
+    <string name="main_dialog_message">您只有在阅读并同意我们的用户协议和隐私政策后才可以继续使用。如果您不同意，请退出。</string>
+    <string name="main_dialog_user_policy">查看协议</string>
+    <string name="main_dialog_agree">同意</string>
+    <string name="main_dialog_exit">退出</string>
+    <string name="about_user_policy">用户协议</string>
 </resources>
