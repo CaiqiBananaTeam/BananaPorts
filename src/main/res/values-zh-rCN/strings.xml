@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BananaPorts</string>
+    <string name="app_name">香蕉串口杀手</string>
     <string name="home_toolbar">BananaPorts</string>
     <string name="text_home_bar_me">关于</string>
     <string name="home_bluetooth_isOn">蓝牙状态</string>
     <string name="home_button_switch_on">打开蓝牙</string>
     <string name="home_button_switch_off">关闭蓝牙</string>
     <string name="home_button_discover">搜索设备</string>
-    <string name="home_button_discover_ing">搜索（停止）</string>
-    <string name="home_listview_listview">找到的设备</string>
+    <string name="home_button_discover_ing">停止搜索</string>
+    <string name="home_listview_listview">设备列表</string>
     <string name="text_home_bar_bluetooth">蓝牙</string>
     <string name="text_home_bar_wifi">无线局域网</string>
     <string name="app_logo">应用图标</string>
     <string name="power_by">Powered by</string>
-    <string name="banana_team">香蕉团队</string>
-    <string name="app_version">Version 2.1</string>
+    <string name="banana_team">香 蕉 团 队</string>
+    <string name="app_version">Version 2.2</string>
     <string name="home_wifi_isOn">WLAN状态</string>
     <string name="fragment_button_wifi_switch_on">开始连接</string>
     <string name="home_isDiscovering">搜索状态</string>
@@ -23,7 +23,15 @@
     <string name="fragment_text_wifi_text">数据发送界面</string>
     <string name="fragment_wifi_ip">IP地址</string>
     <string name="fragment_wifi_port">端口</string>
-    <string name="frgament_wifi_updateInfo">更新</string>
+    <string name="fragment_wifi_updateInfo">更新</string>
     <string name="fragment_wifi_connect">连接</string>
-    <string name="frgament_wifi_connect_statue">连接状态</string>
+    <string name="fragment_wifi_connect_statue">连接状态</string>
+    <string name="about_opensource_license">开源协议</string>
+    <string name="about_privacy_policy">隐私政策</string>
+    <string name="about_github">开源地址</string>
+    <string name="string_save">保存</string>
+    <string name="string_send">发送</string>
+    <string name="string_num">01</string>
+    <string name="string_port">8081</string>
+    <string name="string_ip">192.168.4.1</string>
 </resources>

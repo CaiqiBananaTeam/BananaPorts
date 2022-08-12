@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BananaPorts</string>
     <string name="app_logo">APPLogo</string>
-    <string name="app_version">Version 2.1</string>
+    <string name="app_version">Version 2.2</string>
     <string name="power_by">Powered by  </string>
     <string name="banana_team">Bananas Team</string>
 
@@ -17,17 +17,24 @@
     <string name="fragment_button_wifi_switch_on">Connect</string>
     <string name="home_button_switch_off">Turn off</string>
     <string name="home_button_discover">Discover</string>
-    <string name="home_button_discover_ing">Discover(OFF)</string>
+    <string name="home_button_discover_ing">Stop</string>
     <string name="home_listview_listview">Devices Found</string>
     <string name="fragment_wifi_isConnected">SSID</string>
     <string name="fragment_button_wifi_switch_off">Disconnect</string>
     <string name="fragment_text_wifi_text">Via Data</string>
     <string name="fragment_wifi_ip">IP Address</string>
     <string name="fragment_wifi_port">port</string>
-    <string name="frgament_wifi_updateInfo">Update</string>
+    <string name="fragment_wifi_updateInfo">Update</string>
     <string name="fragment_wifi_connect">Connect</string>
-    <string name="frgament_wifi_connect_statue">connection</string>
-
+    <string name="fragment_wifi_connect_statue">connection</string>
+    <string name="about_opensource_license">Open-Source License</string>
+    <string name="about_privacy_policy">Privacy Policy</string>
+    <string name="about_github">Open-Source Address</string>
+    <string name="string_save">Save</string>
+    <string name="string_send">Send</string>
+    <string name="string_num">01</string>
+    <string name="string_ip">192.168.4.1</string>
+    <string name="string_port">8081</string>
 
 
 </resources>

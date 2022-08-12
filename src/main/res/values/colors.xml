@@ -11,6 +11,7 @@
 
     <color name="home_bar_touch">#8A8A8A</color>
     <color name="home_bar_click">#008e59</color>
+    <color name="pile_black">#696969</color>
 
     <color name="button">#00838F</color>
 
