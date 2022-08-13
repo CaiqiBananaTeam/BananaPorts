@@ -53,7 +53,6 @@ class WifiFragment: Fragment() {
     private var wifiState: Int = WifiManager.WIFI_STATE_DISABLED
     private val stateOn = "Wifi ON"
     private val stateOff = "Wifi OFF"
-    private val wifiNull = "NULL"
     private var connectState = false
     private var connectOn = "Connected!"
     private var connectOff = "Null"
@@ -110,10 +109,9 @@ class WifiFragment: Fragment() {
         wifiEditData02.setText("01")
         wifiEditData03.setText("01")
         wifiTextDataView.text = message
-
         textConnectStatue.text = connectOff
-        socket = Socket()
 
+        socket = Socket()
         if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
             textViewState.text = stateOn
         } else {
@@ -142,7 +140,7 @@ class WifiFragment: Fragment() {
             if (!connectState) {
                 try {
                     wifiConnectThread.start()
-                } catch (e: IOException) {
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
@@ -171,23 +169,25 @@ class WifiFragment: Fragment() {
             wifiEditData01.setText(stringText01)
             wifiEditData02.setText(stringText02)
             wifiEditData03.setText(stringText03)
-
             message = "$stringText01:$stringText02:$stringText03"
-
             wifiTextDataView.text = message
-
             wifiEditData01.clearFocus()
             wifiEditData02.clearFocus()
             wifiEditData03.clearFocus()
         }
         wifiButtonDataSend.setOnClickListener {
-            wifiSendDataThread.start()
-            Thread.sleep(100)
-            wifiSendDataThread.interrupt()
+            coroutineScope.launch(Dispatchers.Default) {
+                try {
+                    sendMessage(message)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                    socket.close()
+                }
+            }
         }
     }
 
-    private fun sendMessage(content: String) {
+    private suspend fun sendMessage(content: String) {
         if (connectState) {
             try {
                 outputStream = socket.getOutputStream()
@@ -213,7 +213,10 @@ class WifiFragment: Fragment() {
         override fun run() {
             super.run()
             try {
+                GlobalScope.launch {
+
                     sendMessage(message)
+                }
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                     socket.close()
@@ -251,6 +254,8 @@ class WifiFragment: Fragment() {
     override fun onStop() {
         coroutineJob.cancel()
         super.onStop()
+        wifiSendDataThread.interrupt()
+        wifiConnectThread.interrupt()
     }
 
 }

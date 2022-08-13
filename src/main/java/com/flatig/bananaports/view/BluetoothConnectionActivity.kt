@@ -12,6 +12,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import com.flatig.bananaports.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -27,6 +31,8 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     private val uuID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
     private var sendDataThread: SendDataThread? = null
     private var receiveDataThread: ReceiveDataThread? = null
+    private val coroutinesJob = Job()
+    private val coroutineScope = CoroutineScope(coroutinesJob)
 
     private lateinit var textViewAddress: TextView
     private lateinit var textViewDevice: TextView
@@ -42,6 +48,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     companion object {
         private var outputStream: OutputStream? = null
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,6 +131,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        coroutinesJob.cancel()
         super.onDestroy()
         sendDataThread?.interrupt()
         receiveDataThread?.interrupt()
@@ -148,26 +156,26 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     inner class SendDataThread: Thread() {
         override fun run() {
             super.run()
+            var stringT01 = ""
+            var stringT02 = ""
+            val intNum = 128
             while (!isInterrupted) {
+                val intNum01 = numInt01 + intNum
+                val intNum02 = numInt02 + intNum
+                when (intNum01.toString().length) {
+                    1 -> stringT01 = "00$intNum01"
+                    2 -> stringT01 = "0$intNum01"
+                    3 -> stringT01 = "$intNum01"
+                }
+                when (intNum02.toString().length) {
+                    1 -> stringT02 = "00$intNum02"
+                    2 -> stringT02 = "0$intNum02"
+                    3 -> stringT02 = "$intNum02"
+                }
                 try {
-                    var stringT01 = ""
-                    var stringT02 = ""
-                    val intNum = 128
-                    val intNum01 = numInt01 + intNum
-                    val intNum02 = numInt02 + intNum
-                    when (intNum01.toString().length) {
-                        1 -> stringT01 = "00$intNum01"
-                        2 -> stringT01 = "0$intNum01"
-                        3 -> stringT01 = "$intNum01"
-                    }
-                    when (intNum02.toString().length) {
-                        1 -> stringT02 = "00$intNum02"
-                        2 -> stringT02 = "0$intNum02"
-                        3 -> stringT02 = "$intNum02"
-                    }
                     message = "$stringT01:$stringT02"
                     sendMessage(message)
-                    Thread.sleep(50)
+                    Thread.sleep(75)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                     break
@@ -181,11 +189,11 @@ class BluetoothConnectionActivity : AppCompatActivity() {
             super.run()
             while (!isInterrupted) {
                 try {
-                    val buffer = ByteArray(256)
+                    val buffer = ByteArray(128)
                     inputStream!!.read(buffer)
                     val a = String(buffer, 0, buffer.size, charset("US-ASCII"))
                     runOnUiThread { textViewContent.append(a) }
-                    Thread.sleep(2500)
+                    Thread.sleep(500)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                     break

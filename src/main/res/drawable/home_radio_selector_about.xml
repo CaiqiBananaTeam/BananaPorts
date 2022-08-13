@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_checked="true"
-        android:drawable="@drawable/ic_bar_home_home_picked_27dp"/>
+        android:drawable="@drawable/ic_bar_about_picked_27dp"/>
     <item
         android:state_checked="false"
-        android:drawable="@drawable/ic_bar_home_home_27dp"/>
+        android:drawable="@drawable/ic_bar_about_27dp"/>
 </selector>

@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/text_home_bar_bluetooth"
-            android:drawableTop="@drawable/home_radio_selector_home"
+            android:drawableTop="@drawable/home_radio_selector_bluetooth"
             android:textColor="@color/home_radio_selector_text_color"
             android:button="@null"/>
         <RadioButton
@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/text_home_bar_wifi"
-            android:drawableTop="@drawable/home_radio_selector_me"
+            android:drawableTop="@drawable/home_radio_selector_wifi"
             android:textColor="@color/home_radio_selector_text_color"
             android:button="@null"/>
         <RadioButton
@@ -61,7 +61,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/text_home_bar_me"
-            android:drawableTop="@drawable/home_radio_selector_me"
+            android:drawableTop="@drawable/home_radio_selector_about"
             android:textColor="@color/home_radio_selector_text_color"
             android:button="@null"/>
 
