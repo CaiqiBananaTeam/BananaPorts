@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -32,18 +33,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initView()
-        fragmentReplace(BluetoothFragment(),resources.getString(R.string.text_home_bar_bluetooth))
+        fragmentReplace(bluetoothFragment,resources.getString(R.string.text_home_bar_bluetooth))
         setSupportActionBar(toolbar)
         radioGroup.setOnCheckedChangeListener { _, checkedID ->
             when (checkedID) {
                 R.id.bar_home_radio_bluetooth
-                        -> fragmentReplace(BluetoothFragment(), resources.getString(R.string.text_home_bar_bluetooth))
+                        -> fragmentReplace(bluetoothFragment, resources.getString(R.string.text_home_bar_bluetooth))
                 R.id.bar_home_radio_wifi
-                        -> fragmentReplace(WifiFragment(), resources.getString(R.string.text_home_bar_wifi))
+                        -> fragmentReplace(wifiFragment, resources.getString(R.string.text_home_bar_wifi))
                 R.id.bar_home_radio_ports
-                        -> fragmentReplace(PortsFragment(),resources.getString(R.string.text_home_bar_ports))
+                        -> fragmentReplace(portsFragment,resources.getString(R.string.text_home_bar_ports))
                 R.id.bar_home_radio_about
-                        -> fragmentReplace(AboutFragment(), resources.getString(R.string.text_home_bar_about))
+                        -> fragmentReplace(aboutFragment, resources.getString(R.string.text_home_bar_about))
             }
         }
     }
@@ -142,18 +143,24 @@ class MainActivity : AppCompatActivity() {
     // Function to replace fragments
     private fun fragmentReplace(fragment: Fragment, title: String = resources.getString(R.string.home_toolbar), isAddToBackStack: Boolean = false) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        if (!fragment.isAdded) {
-            fragmentTransaction.add(R.id.home_frame_layout, fragment)
-            fragmentTransaction.hide(showingFragment)
-        } else {
-                fragmentTransaction.show(fragment)
-                fragmentTransaction.hide(showingFragment)
+        if (!wifiFragment.isAdded) {
+            fragmentTransaction.add(R.id.home_frame_layout, bluetoothFragment)
+            fragmentTransaction.add(R.id.home_frame_layout, wifiFragment)
+            fragmentTransaction.add(R.id.home_frame_layout, portsFragment)
+            fragmentTransaction.add(R.id.home_frame_layout, aboutFragment)
+            fragmentTransaction.hide(bluetoothFragment)
+            fragmentTransaction.hide(wifiFragment)
+            fragmentTransaction.hide(portsFragment)
+            fragmentTransaction.hide(aboutFragment)
         }
+        fragmentTransaction.hide(showingFragment)
+        fragmentTransaction.show(fragment)
+
         if (isAddToBackStack) fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+        Log.e("WHY",fragment.isAdded.toString())
 
         showingFragment = fragment
         toolbar.title = title
-
     }
 }

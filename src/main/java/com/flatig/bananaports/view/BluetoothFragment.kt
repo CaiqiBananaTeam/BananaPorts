@@ -15,16 +15,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
 import com.flatig.bananaports.R
 import com.flatig.bananaports.logic.tools.BluetoothArrayAdapter
 import com.flatig.bananaports.logic.tools.BluetoothDeviceInfo
-import com.flatig.bananaports.logic.viewmodel.FragmentViewModel
 import kotlinx.coroutines.*
 
 class BluetoothFragment: Fragment() {
-    private lateinit var fragmentViewModel: FragmentViewModel
-    private lateinit var liveData: MutableLiveData<BluetoothDeviceInfo>
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var broadcastReceiver: BroadcastReceiver
@@ -82,7 +78,6 @@ class BluetoothFragment: Fragment() {
         }
         listView.setOnItemClickListener { _, _, position, _ ->
             val deviceInfo = deviceList[position]
-            liveData.value = deviceInfo
             val intent = Intent(requireActivity(), BluetoothConnectionActivity::class.java)
             intent.putExtra("device", deviceInfo.deviceName)
             intent.putExtra("address",deviceInfo.deviceAddress)
@@ -91,8 +86,7 @@ class BluetoothFragment: Fragment() {
     }
 
     private fun initView(view: View) {
-        fragmentViewModel = ViewModelProvider(this)[FragmentViewModel::class.java]
-        liveData = fragmentViewModel.info as MutableLiveData<BluetoothDeviceInfo>
+
         textViewIsOn = view.findViewById(R.id.fragment_home_bluetooth_isOn)
         textViewIsDisc = view.findViewById(R.id.fragment_home_bluetooth_isDiscovering)
         buttonSwitch = view.findViewById(R.id.fragment_home_bluetooth_switch)
@@ -146,6 +140,7 @@ class BluetoothFragment: Fragment() {
 
     @SuppressLint("MissingPermission")
     override fun onResume() {
+        super.onResume()
         //SwitchCoroutines
         coroutineScope.launch(Dispatchers.Main) {
             try {
@@ -194,11 +189,10 @@ class BluetoothFragment: Fragment() {
                 e.printStackTrace()
             }
         }
-        super.onResume()
     }
     override fun onPause() {
-        coroutineJob.cancel()
         super.onPause()
+        coroutineJob.cancel()
     }
 }
 
