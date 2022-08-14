@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">香蕉串口杀手</string>
     <string name="home_toolbar">BananaPorts</string>
-    <string name="text_home_bar_me">关于</string>
+    <string name="text_home_bar_about">关于</string>
     <string name="home_bluetooth_isOn">蓝牙状态</string>
     <string name="home_button_switch_on">打开蓝牙</string>
     <string name="home_button_switch_off">关闭蓝牙</string>
@@ -40,4 +40,5 @@
     <string name="main_dialog_agree">同意</string>
     <string name="main_dialog_exit">退出</string>
     <string name="about_user_policy">用户协议</string>
+    <string name="text_home_bar_ports">多连接</string>
 </resources>

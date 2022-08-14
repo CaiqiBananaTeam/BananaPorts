@@ -1,5 +1,6 @@
 package com.flatig.bananaports.view
 
+import android.accounts.NetworkErrorException
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
@@ -204,9 +205,8 @@ class WifiFragment: Fragment() {
             super.run()
             try {
                 socket.connect(InetSocketAddress(figureIP, figurePort))
-            } catch (e: InterruptedException) {
+            } catch (e: NetworkErrorException) {
                 e.printStackTrace()
-                socket.close()
             }
         }
     }

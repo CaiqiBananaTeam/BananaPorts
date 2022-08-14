@@ -1,4 +1,4 @@
-package com.flatig.bananaports.view
+package com.flatig.bananaports.logic.viewmodel
 
 import androidx.lifecycle.ViewModel
 

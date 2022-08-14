@@ -7,12 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.flatig.bananaports.R
+import com.flatig.bananaports.logic.viewmodel.PortsViewModel
 
 class PortsFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = PortsFragment()
-    }
 
     private lateinit var viewModel: PortsViewModel
 
@@ -22,10 +19,10 @@ class PortsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_ports, container, false)
     }
-    
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PortsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[PortsViewModel::class.java]
     }
 }
