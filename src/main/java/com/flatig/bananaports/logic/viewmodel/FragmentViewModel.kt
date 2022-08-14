@@ -2,7 +2,7 @@ package com.flatig.bananaports.logic.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
-import com.flatig.bananaports.logic.model.BluetoothDeviceInfo
+import com.flatig.bananaports.logic.tools.BluetoothDeviceInfo
 import androidx.lifecycle.LiveData
 
 class FragmentViewModel : ViewModel() {

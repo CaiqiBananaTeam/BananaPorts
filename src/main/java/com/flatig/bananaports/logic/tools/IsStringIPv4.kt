@@ -1,4 +1,4 @@
-package com.flatig.bananaports.logic.model
+package com.flatig.bananaports.logic.tools
 
 import java.util.regex.Pattern
 

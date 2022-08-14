@@ -17,8 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.flatig.bananaports.R
-import com.flatig.bananaports.logic.model.BluetoothArrayAdapter
-import com.flatig.bananaports.logic.model.BluetoothDeviceInfo
+import com.flatig.bananaports.logic.tools.BluetoothArrayAdapter
+import com.flatig.bananaports.logic.tools.BluetoothDeviceInfo
 import com.flatig.bananaports.logic.viewmodel.FragmentViewModel
 import kotlinx.coroutines.*
 

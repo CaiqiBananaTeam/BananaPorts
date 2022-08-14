@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.flatig.bananaports.R
-import com.flatig.bananaports.logic.model.IsStringIPv4
-import com.google.android.material.textfield.TextInputEditText
+import com.flatig.bananaports.logic.tools.IsStringIPv4
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.io.OutputStream
@@ -178,6 +178,7 @@ class WifiFragment: Fragment() {
         wifiButtonDataSend.setOnClickListener {
             coroutineScope.launch(Dispatchers.Default) {
                 try {
+                    Log.d("MES", message)
                     sendMessage(message)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
@@ -214,7 +215,6 @@ class WifiFragment: Fragment() {
             super.run()
             try {
                 GlobalScope.launch {
-
                     sendMessage(message)
                 }
                 } catch (e: InterruptedException) {
