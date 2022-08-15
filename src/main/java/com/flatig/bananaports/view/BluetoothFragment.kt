@@ -15,9 +15,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import com.flatig.bananaports.MainActivity
 import com.flatig.bananaports.R
 import com.flatig.bananaports.logic.tools.BluetoothArrayAdapter
 import com.flatig.bananaports.logic.tools.BluetoothDeviceInfo
+import com.flatig.bananaports.logic.viewmodel.BluetoothViewModel
 import kotlinx.coroutines.*
 
 class BluetoothFragment: Fragment() {
@@ -29,6 +35,8 @@ class BluetoothFragment: Fragment() {
 
     private val coroutineJob = Job()
     private val coroutineScope = CoroutineScope(coroutineJob)
+    private lateinit var bluetoothViewModel: BluetoothViewModel
+    private lateinit var bluetoothLiveData: MutableLiveData<String>
 
     private lateinit var textViewIsOn: TextView
     private lateinit var textViewIsDisc: TextView
@@ -52,12 +60,32 @@ class BluetoothFragment: Fragment() {
     }
 
     //Override the FragmentLifeCycle : New in fragment:1.3.0-alpha02
-    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView(view)
+        setViewData()
         broadcastRegister()
+    }
 
+    private fun initView(view: View) {
+        textViewIsOn = view.findViewById(R.id.fragment_home_bluetooth_isOn)
+        textViewIsDisc = view.findViewById(R.id.fragment_home_bluetooth_isDiscovering)
+        buttonSwitch = view.findViewById(R.id.fragment_home_bluetooth_switch)
+        buttonDisc = view.findViewById(R.id.fragment_home_bluetooth_discover)
+        listView = view.findViewById(R.id.home_listview)
+        listViewAdapter = BluetoothArrayAdapter(deviceList, requireActivity())
+        listView.adapter = listViewAdapter
+
+        bluetoothManager = requireActivity().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        bluetoothAdapter = bluetoothManager.adapter
+        textViewIsOn.text = STATE_OFF
+        textViewIsDisc.text = NONSEARCH
+
+        bluetoothViewModel = ViewModelProvider(this)[BluetoothViewModel::class.java]
+        bluetoothLiveData = bluetoothViewModel.bluetoothDeviceName
+    }
+    @SuppressLint("MissingPermission")
+    private fun setViewData() {
         buttonSwitch.setOnClickListener {
             when (STATE) {
                 STATE_ON -> bluetoothAdapter.disable()
@@ -78,28 +106,21 @@ class BluetoothFragment: Fragment() {
         }
         listView.setOnItemClickListener { _, _, position, _ ->
             val deviceInfo = deviceList[position]
+
             val intent = Intent(requireActivity(), BluetoothConnectionActivity::class.java)
             intent.putExtra("device", deviceInfo.deviceName)
             intent.putExtra("address",deviceInfo.deviceAddress)
             startActivity(intent)
         }
+
+        bluetoothViewModel.onState.observe(viewLifecycleOwner, Observer { state ->
+
+        })
+        bluetoothViewModel.onSearch.observe(viewLifecycleOwner, Observer { search ->
+
+        })
     }
 
-    private fun initView(view: View) {
-
-        textViewIsOn = view.findViewById(R.id.fragment_home_bluetooth_isOn)
-        textViewIsDisc = view.findViewById(R.id.fragment_home_bluetooth_isDiscovering)
-        buttonSwitch = view.findViewById(R.id.fragment_home_bluetooth_switch)
-        buttonDisc = view.findViewById(R.id.fragment_home_bluetooth_discover)
-        listView = view.findViewById(R.id.home_listview)
-        listViewAdapter = BluetoothArrayAdapter(deviceList, requireActivity())
-        listView.adapter = listViewAdapter
-
-        bluetoothManager = requireActivity().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        bluetoothAdapter = bluetoothManager.adapter
-        textViewIsOn.text = STATE_OFF
-        textViewIsDisc.text = NONSEARCH
-    }
     private fun broadcastRegister() {
         bluetoothStateReceiver = object :BroadcastReceiver(){
             override fun onReceive(p0: Context?, p1: Intent?) {
@@ -149,12 +170,12 @@ class BluetoothFragment: Fragment() {
                     when (STATE) {
                         STATE_ON -> {
                             textViewIsOn.text = STATE_ON
-                            textViewIsOn.setTextColor(resources.getColor(R.color.teal_200))
+                            textViewIsOn.setTextColor(ContextCompat.getColor(requireActivity(), R.color.teal_200))
                             buttonSwitch.text = resources.getString(R.string.home_button_switch_off)
                         }
                         STATE_OFF -> {
                             textViewIsOn.text = STATE_OFF
-                            textViewIsOn.setTextColor(resources.getColor(R.color.blue_dai))
+                            textViewIsOn.setTextColor(ContextCompat.getColor(requireActivity(), R.color.blue_dai))
                             buttonSwitch.text = resources.getString(R.string.home_button_switch_on)
                         }
                     }
@@ -189,7 +210,9 @@ class BluetoothFragment: Fragment() {
                 e.printStackTrace()
             }
         }
+
     }
+
     override fun onPause() {
         super.onPause()
         coroutineJob.cancel()

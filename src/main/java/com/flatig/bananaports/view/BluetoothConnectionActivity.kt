@@ -3,7 +3,9 @@ package com.flatig.bananaports.view
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -43,6 +45,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     private lateinit var textViewContent: EditText
 
     private lateinit var bluetoothAdapter: BluetoothAdapter
+    private lateinit var bluetoothManager: BluetoothManager
     private lateinit var device: BluetoothDevice
     private lateinit var bluetoothSocket: BluetoothSocket
     companion object {
@@ -55,6 +58,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bluetooth_connection)
         initView()
         connectDevices()
+
     }
 
     // Initial the view to make code clean
@@ -74,6 +78,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
         textView02.text = numInt01.toString()
         seekBar1 = findViewById(R.id.seekBar1)
         seekBar2 = findViewById(R.id.seekBar2)
+
 
         seekBar1.setOnSeekBarChangeListener(object :
         SeekBar.OnSeekBarChangeListener{
@@ -109,7 +114,8 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     // Make connection to get Bluetooth Sockets
     @SuppressLint("MissingPermission")
     private fun connectDevices() {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        bluetoothAdapter = bluetoothManager.adapter
         device = bluetoothAdapter.getRemoteDevice(deviceAddress)
         try {
             bluetoothSocket = device.createRfcommSocketToServiceRecord(uuID)
