@@ -35,18 +35,6 @@ class MainActivity : AppCompatActivity() {
         initView()
         fragmentReplace(bluetoothFragment,resources.getString(R.string.text_home_bar_bluetooth))
         setSupportActionBar(toolbar)
-        radioGroup.setOnCheckedChangeListener { _, checkedID ->
-            when (checkedID) {
-                R.id.bar_home_radio_bluetooth
-                        -> fragmentReplace(bluetoothFragment, resources.getString(R.string.text_home_bar_bluetooth))
-                R.id.bar_home_radio_wifi
-                        -> fragmentReplace(wifiFragment, resources.getString(R.string.text_home_bar_wifi))
-                R.id.bar_home_radio_ports
-                        -> fragmentReplace(portsFragment,resources.getString(R.string.text_home_bar_ports))
-                R.id.bar_home_radio_about
-                        -> fragmentReplace(aboutFragment, resources.getString(R.string.text_home_bar_about))
-            }
-        }
     }
 
     override fun onResume() {
@@ -74,17 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
         super.onResume()
     }
-    // Function First Run
-    private fun isFirstRun(context: Context): Boolean {
-        val checkRunVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE)
-        return checkRunVar.getInt("runFirst", 0) == 0
-    }
-    // Function Remember Run Times
-    private fun alreadyRan(context: Context) {
-        val runVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE).edit()
-        runVar.putInt("runFirst", 6)
-        runVar.apply()
-    }
+
     // Function to initial View
     private fun initView() {
         toolbar = findViewById(R.id.toolbar)
@@ -95,8 +73,20 @@ class MainActivity : AppCompatActivity() {
         portsFragment = PortsFragment()
         aboutFragment = AboutFragment()
         showingFragment = bluetoothFragment
-    }
 
+        radioGroup.setOnCheckedChangeListener { _, checkedID ->
+            when (checkedID) {
+                R.id.bar_home_radio_bluetooth
+                -> fragmentReplace(bluetoothFragment, resources.getString(R.string.text_home_bar_bluetooth))
+                R.id.bar_home_radio_wifi
+                -> fragmentReplace(wifiFragment, resources.getString(R.string.text_home_bar_wifi))
+                R.id.bar_home_radio_ports
+                -> fragmentReplace(portsFragment,resources.getString(R.string.text_home_bar_ports))
+                R.id.bar_home_radio_about
+                -> fragmentReplace(aboutFragment, resources.getString(R.string.text_home_bar_about))
+            }
+        }
+    }
     // Function to request permissions
     private fun permissionRequest() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -162,5 +152,21 @@ class MainActivity : AppCompatActivity() {
 
         showingFragment = fragment
         toolbar.title = title
+    }
+
+    // Function First Run
+    private fun isFirstRun(context: Context): Boolean {
+        val checkRunVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE)
+        return checkRunVar.getInt("runFirst", 0) == 0
+    }
+    // Function Remember Run Times
+    private fun alreadyRan(context: Context) {
+        val runVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE).edit()
+        runVar.putInt("runFirst", 6)
+        runVar.apply()
+    }
+    // Function to manage and control coroutines
+    private fun coroutinesControl() {
+
     }
 }

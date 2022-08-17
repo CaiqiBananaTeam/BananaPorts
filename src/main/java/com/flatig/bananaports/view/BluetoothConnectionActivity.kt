@@ -14,6 +14,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import com.flatig.bananaports.R
+import com.flatig.bananaports.logic.tools.StaticSingleData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -64,8 +65,10 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     // Initial the view to make code clean
     private fun initView() {
         val intent = intent
-        deviceName = intent.getStringExtra("device").toString()
-        deviceAddress = intent.getStringExtra("address").toString()
+//        deviceName = intent.getStringExtra("device").toString()
+//        deviceAddress = intent.getStringExtra("address").toString()
+        deviceName = StaticSingleData.bluetoothDeviceName
+        deviceAddress = StaticSingleData.bluetoothDeviceAddress
 
         textViewContent = findViewById(R.id.connection_text_receive)
         textViewDevice = findViewById(R.id.connection_text_devices)

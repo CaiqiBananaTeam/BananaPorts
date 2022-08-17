@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.flatig.bananaports.R
 import com.flatig.bananaports.logic.tools.IsStringIPv4
+import com.flatig.bananaports.logic.tools.StaticSingleData
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.io.OutputStream
@@ -125,6 +126,7 @@ class WifiFragment: Fragment() {
                 editTextIPAddress.setText(figureIP)
                 editTextIPAddress.clearFocus()
                 textViewInstantIP.text = figureIP
+                StaticSingleData.wifiIPAddress = figureIP
             } else {
                 Toast.makeText(requireActivity(), "Check IP", Toast.LENGTH_SHORT).show()
             }
@@ -133,6 +135,7 @@ class WifiFragment: Fragment() {
                 editTextPort.setText(figurePort.toString())
                 editTextPort.clearFocus()
                 textViewInstantPort.text = figurePort.toString()
+                StaticSingleData.wifiIPPort = figurePort.toString()
             } else {
                 Toast.makeText(requireActivity(), "Check Port", Toast.LENGTH_SHORT).show()
             }

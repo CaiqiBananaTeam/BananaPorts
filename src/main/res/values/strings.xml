@@ -42,5 +42,7 @@
     <string name="main_dialog_agree">Agreed</string>
     <string name="main_dialog_exit">Exit</string>
     <string name="about_user_policy">User Policy</string>
+    <string name="bluetooth_name">Name</string>
+    <string name="bluetooth_mac">Address</string>
 
 </resources>

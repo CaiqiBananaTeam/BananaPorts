@@ -23,6 +23,7 @@ import com.flatig.bananaports.MainActivity
 import com.flatig.bananaports.R
 import com.flatig.bananaports.logic.tools.BluetoothArrayAdapter
 import com.flatig.bananaports.logic.tools.BluetoothDeviceInfo
+import com.flatig.bananaports.logic.tools.StaticSingleData
 import com.flatig.bananaports.logic.viewmodel.BluetoothViewModel
 import kotlinx.coroutines.*
 
@@ -106,8 +107,9 @@ class BluetoothFragment: Fragment() {
         }
         listView.setOnItemClickListener { _, _, position, _ ->
             val deviceInfo = deviceList[position]
-
             val intent = Intent(requireActivity(), BluetoothConnectionActivity::class.java)
+            StaticSingleData.bluetoothDeviceName = deviceInfo.deviceName.toString()
+            StaticSingleData.bluetoothDeviceAddress = deviceInfo.deviceAddress.toString()
             intent.putExtra("device", deviceInfo.deviceName)
             intent.putExtra("address",deviceInfo.deviceAddress)
             startActivity(intent)
