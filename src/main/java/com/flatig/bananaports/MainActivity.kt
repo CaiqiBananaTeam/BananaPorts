@@ -9,17 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
+import com.flatig.bananaports.logic.tools.StaticSingleData
 import com.flatig.bananaports.view.BluetoothFragment
 import com.flatig.bananaports.view.AboutFragment
 import com.flatig.bananaports.view.PortsFragment
 import com.flatig.bananaports.view.WifiFragment
 import com.permissionx.guolindev.PermissionX
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var toolbar: Toolbar
     private lateinit var radioGroup: RadioGroup
 
@@ -37,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
     }
 
+    // To check permissions & is first run
     override fun onResume() {
         if (isFirstRun(this)) {
             AlertDialog.Builder(this).apply {
@@ -63,11 +70,9 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
     }
 
-    // Function to initial View
     private fun initView() {
         toolbar = findViewById(R.id.toolbar)
         radioGroup = findViewById(R.id.home_bar_radio_group)
-
         bluetoothFragment = BluetoothFragment()
         wifiFragment = WifiFragment()
         portsFragment = PortsFragment()
@@ -87,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    // Function to request permissions
+
     private fun permissionRequest() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PermissionX.init(this)
@@ -99,15 +104,21 @@ class MainActivity : AppCompatActivity() {
                     Manifest.permission.BLUETOOTH_CONNECT,
                     Manifest.permission.BLUETOOTH_ADVERTISE)
                 .onExplainRequestReason { scope, deniedList ->
-                    scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel")
+                    scope.showRequestReasonDialog(deniedList,
+                        "Core fundamental are based on these permissions",
+                        "OK", "Cancel")
                 }
                 .onForwardToSettings { scope, deniedList ->
-                    scope.showForwardToSettingsDialog(deniedList, "You need to allow necessary permissions in Settings manually", "OK", "Cancel")
+                    scope.showForwardToSettingsDialog(deniedList,
+                        "You need to allow necessary permissions in Settings manually",
+                        "OK", "Cancel")
                 }
                 .explainReasonBeforeRequest()
                 .request { allGranted, _, deniedList ->
                     if (!allGranted) {
-                        Toast.makeText(this, "These permissions are denied: $deniedList", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this,
+                            "These permissions are denied: $deniedList",
+                            Toast.LENGTH_LONG).show()
                     }
                 }
         } else {
@@ -130,7 +141,6 @@ class MainActivity : AppCompatActivity() {
                 }
         }
     }
-    // Function to replace fragments
     private fun fragmentReplace(fragment: Fragment, title: String = resources.getString(R.string.home_toolbar), isAddToBackStack: Boolean = false) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         if (!wifiFragment.isAdded) {
@@ -154,19 +164,15 @@ class MainActivity : AppCompatActivity() {
         toolbar.title = title
     }
 
-    // Function First Run
+    // Functions for first-run alter-dialog
     private fun isFirstRun(context: Context): Boolean {
         val checkRunVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE)
         return checkRunVar.getInt("runFirst", 0) == 0
     }
-    // Function Remember Run Times
     private fun alreadyRan(context: Context) {
         val runVar = context.getSharedPreferences("runNote", Context.MODE_PRIVATE).edit()
         runVar.putInt("runFirst", 6)
         runVar.apply()
     }
-    // Function to manage and control coroutines
-    private fun coroutinesControl() {
 
-    }
 }

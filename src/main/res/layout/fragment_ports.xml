@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/home_wifi_isOn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintHorizontal_bias="0.0"
@@ -138,10 +138,12 @@
 
     <TextView
         android:id="@+id/textView16"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:freezesText="false"
+        android:gravity="center"
+        android:text="@string/home_bluetooth_isOn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView15"
         app:layout_constraintHorizontal_bias="0.0"
@@ -150,23 +152,21 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/port_state_bluetooth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/textView15"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toTopOf="@+id/textView15" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/port_state_wifi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/textView16"
-        app:layout_constraintEnd_toEndOf="@+id/textView19"
-        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintEnd_toEndOf="@+id/port_state_bluetooth"
+        app:layout_constraintStart_toStartOf="@+id/port_state_bluetooth"
         app:layout_constraintTop_toTopOf="@+id/textView16" />
 
     <Button
@@ -177,10 +177,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/port_state_wifi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/textView19" />
+        app:layout_constraintTop_toTopOf="@+id/port_state_bluetooth" />
 
     <View
         android:id="@+id/divider7"

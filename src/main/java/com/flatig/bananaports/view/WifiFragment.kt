@@ -45,6 +45,7 @@ class WifiFragment: Fragment() {
     private lateinit var outputStream: OutputStream
     private lateinit var wifiSendDataThread: WifiSendDataThread
     private lateinit var wifiConnectThread: WifiConnect
+    private lateinit var wifiThreads: WifiThreads
     private val coroutineJob = Job()
     private val coroutineScope = CoroutineScope(coroutineJob)
 
@@ -186,13 +187,12 @@ class WifiFragment: Fragment() {
                     sendMessage(message)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
-                    socket.close()
                 }
             }
         }
     }
 
-    private suspend fun sendMessage(content: String) {
+    private fun sendMessage(content: String) {
         if (connectState) {
             try {
                 outputStream = socket.getOutputStream()
@@ -217,48 +217,49 @@ class WifiFragment: Fragment() {
         override fun run() {
             super.run()
             try {
-                GlobalScope.launch {
-                    sendMessage(message)
+                sendMessage(message)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                socket.close()
+            }
+        }
+    }
+    inner class WifiThreads: Thread() {
+        override fun run() {
+            super.run()
+            try {
+                while (!isInterrupted) {
+                    try {
+                        wifiState = wifiManager.wifiState
+                        if (wifiState == WifiManager.WIFI_STATE_ENABLED) requireActivity().runOnUiThread { textViewState.text = stateOn } else requireActivity().runOnUiThread { textViewState.text = stateOff }
+                        connectState = socket.isConnected
+                        if (connectState) requireActivity().runOnUiThread { textConnectStatue.text = connectOn } else requireActivity().runOnUiThread { textConnectStatue.text = connectOff }
+
+                        Thread.sleep(200)
+                    }catch (e: InterruptedException) {
+                        e.printStackTrace()
+                        break
+                    }
                 }
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                    socket.close()
-                }
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
         }
     }
 
     override fun onStart() {
-        //WifiStateCheckCoroutines
-        coroutineScope.launch(Dispatchers.Main) {
-            try {
-                while (true) {
-                    wifiState = wifiManager.wifiState
-                    if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
-                        textViewState.text = stateOn
-                    } else {
-                        textViewState.text = stateOff
-                    }
-                    connectState = socket.isConnected
-                    if (connectState) {
-                        textConnectStatue.text = connectOn
-                    } else {
-                        textConnectStatue.text = connectOff
-                    }
-                    delay(200)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
         super.onStart()
+        wifiThreads = WifiThreads()
+        wifiThreads.start()
         wifiSendDataThread = WifiSendDataThread()
         wifiConnectThread = WifiConnect()
     }
-    override fun onStop() {
+    override fun onPause() {
+        super.onPause()
         coroutineJob.cancel()
-        super.onStop()
         wifiSendDataThread.interrupt()
         wifiConnectThread.interrupt()
+        wifiThreads.interrupt()
     }
 
 }

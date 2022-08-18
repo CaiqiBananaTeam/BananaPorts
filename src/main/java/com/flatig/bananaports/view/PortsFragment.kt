@@ -18,6 +18,8 @@ class PortsFragment : Fragment() {
     private lateinit var textBluetoothAddress: TextView
     private lateinit var textWifiAddress: TextView
     private lateinit var textWifiPort: TextView
+    private lateinit var textStateBluetooth: TextView
+    private lateinit var textStateWifi: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +32,6 @@ class PortsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView(view)
-        setViewData()
         viewModel = ViewModelProvider(this)[PortsViewModel::class.java]
     }
 
@@ -39,6 +40,8 @@ class PortsFragment : Fragment() {
         textBluetoothAddress = view.findViewById(R.id.port_bluetooth_address)
         textWifiAddress = view.findViewById(R.id.port_wifi_address)
         textWifiPort = view.findViewById(R.id.port_wifi_port)
+        textStateBluetooth = view.findViewById(R.id.port_state_bluetooth)
+        textStateWifi = view.findViewById(R.id.port_state_wifi)
     }
 
     private fun setViewData() {
@@ -46,5 +49,14 @@ class PortsFragment : Fragment() {
         textBluetoothAddress.text = StaticSingleData.bluetoothDeviceAddress
         textWifiAddress.text = StaticSingleData.wifiIPAddress
         textWifiPort.text = StaticSingleData.wifiIPPort
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        setViewData()
+    }
+    override fun onPause() {
+        super.onPause()
     }
 }

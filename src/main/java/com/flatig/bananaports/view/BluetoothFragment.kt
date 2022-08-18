@@ -28,14 +28,14 @@ import com.flatig.bananaports.logic.viewmodel.BluetoothViewModel
 import kotlinx.coroutines.*
 
 class BluetoothFragment: Fragment() {
+
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var broadcastReceiver: BroadcastReceiver
     private lateinit var bluetoothStateReceiver: BroadcastReceiver
     private val deviceList: MutableList<BluetoothDeviceInfo> = ArrayList()
 
-    private val coroutineJob = Job()
-    private val coroutineScope = CoroutineScope(coroutineJob)
+    private lateinit var bluetoothThreads: BluetoothThreads
     private lateinit var bluetoothViewModel: BluetoothViewModel
     private lateinit var bluetoothLiveData: MutableLiveData<String>
 
@@ -60,7 +60,6 @@ class BluetoothFragment: Fragment() {
         return inflater.inflate(R.layout.fragment_bluetooth, container, false)
     }
 
-    //Override the FragmentLifeCycle : New in fragment:1.3.0-alpha02
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView(view)
@@ -164,60 +163,67 @@ class BluetoothFragment: Fragment() {
     @SuppressLint("MissingPermission")
     override fun onResume() {
         super.onResume()
-        //SwitchCoroutines
-        coroutineScope.launch(Dispatchers.Main) {
-            try {
-                while (true) {
-                    STATE = if (bluetoothAdapter.isEnabled) "ON" else "OFF"
-                    when (STATE) {
-                        STATE_ON -> {
-                            textViewIsOn.text = STATE_ON
-                            textViewIsOn.setTextColor(ContextCompat.getColor(requireActivity(), R.color.teal_200))
-                            buttonSwitch.text = resources.getString(R.string.home_button_switch_off)
-                        }
-                        STATE_OFF -> {
-                            textViewIsOn.text = STATE_OFF
-                            textViewIsOn.setTextColor(ContextCompat.getColor(requireActivity(), R.color.blue_dai))
-                            buttonSwitch.text = resources.getString(R.string.home_button_switch_on)
-                        }
-                    }
-                    delay(200)
-                }
-            } catch (e: Exception) {
-                coroutineJob.cancel()
-                e.printStackTrace()
-            }
-        }
-        //SearchCoroutines
-        coroutineScope.launch(Dispatchers.Main) {
-            try {
-                while (true) {
-                    STATE_DISC = if (bluetoothAdapter.isDiscovering) "ON" else "OFF"
-                    when (STATE_DISC) {
-                        STATE_ON -> {
-                            textViewIsDisc.text = SEARCHING
-                            textViewIsDisc.setTextColor(ContextCompat.getColor(requireActivity(), R.color.teal_200))
-                            buttonDisc.text = resources.getString(R.string.home_button_discover_ing)
-                        }
-                        STATE_OFF -> {
-                            textViewIsDisc.text = NONSEARCH
-                            textViewIsDisc.setTextColor(ContextCompat.getColor(requireActivity(), R.color.blue_dai))
-                            buttonDisc.text = resources.getString(R.string.home_button_discover)
-                        }
-                    }
-                    delay(500)
-                }
-            } catch (e: Exception) {
-                coroutineJob.cancel()
-                e.printStackTrace()
-            }
-        }
+        bluetoothThreads = BluetoothThreads()
+        bluetoothThreads.start()
 
     }
-
     override fun onPause() {
         super.onPause()
-        coroutineJob.cancel()
+        bluetoothThreads.interrupt()
+    }
+
+    inner class BluetoothThreads: Thread() {
+        @SuppressLint("MissingPermission")
+        override fun run() {
+            super.run()
+            try {
+                while (!isInterrupted) {
+                    STATE = if (bluetoothAdapter.isEnabled) "ON" else "OFF"
+                    STATE_DISC = if (bluetoothAdapter.isDiscovering) "ON" else "OFF"
+                    try {
+                        when (STATE) {
+                            STATE_ON -> {
+                                requireActivity().runOnUiThread {
+                                    textViewIsOn.text = STATE_ON
+                                    textViewIsOn.setTextColor(ContextCompat.getColor(requireActivity(), R.color.teal_200))
+                                    buttonSwitch.text = resources.getString(R.string.home_button_switch_off)
+                                }
+                            }
+                            STATE_OFF -> {
+                                requireActivity().runOnUiThread {
+                                    textViewIsOn.text = STATE_OFF
+                                    textViewIsOn.setTextColor(ContextCompat.getColor(requireActivity(), R.color.blue_dai))
+                                    buttonSwitch.text = resources.getString(R.string.home_button_switch_on)
+                                }
+                            }
+                        }
+
+                        when (STATE_DISC) {
+                            STATE_ON -> {
+                                requireActivity().runOnUiThread {
+                                    textViewIsDisc.text = SEARCHING
+                                    textViewIsDisc.setTextColor(ContextCompat.getColor(requireActivity(), R.color.teal_200))
+                                    buttonDisc.text = resources.getString(R.string.home_button_discover_ing)
+                                }
+                            }
+                            STATE_OFF -> {
+                                requireActivity().runOnUiThread {
+                                    textViewIsDisc.text = NONSEARCH
+                                    textViewIsDisc.setTextColor(ContextCompat.getColor(requireActivity(), R.color.blue_dai))
+                                    buttonDisc.text = resources.getString(R.string.home_button_discover)
+                                }
+                            }
+                        }
+                        Thread.sleep(200)
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                        break
+                    }
+                }
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+            }
+        }
     }
 }
 
