@@ -12,9 +12,4 @@ object StaticSingleData {
     var wifiIPAddress: String = "192.168.4.1"
     var wifiIPPort: String = "8081"
 
-    var bluetoothState: String = "OFF"
-    var bluetoothSearchState: String = "Null"
-
-    var wifiState: String = "Wifi OFF"
-
 }

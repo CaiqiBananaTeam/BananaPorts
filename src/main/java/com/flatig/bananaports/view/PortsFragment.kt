@@ -51,7 +51,6 @@ class PortsFragment : Fragment() {
         textWifiPort.text = StaticSingleData.wifiIPPort
     }
 
-
     override fun onResume() {
         super.onResume()
         setViewData()
@@ -59,4 +58,6 @@ class PortsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
     }
+
+
 }

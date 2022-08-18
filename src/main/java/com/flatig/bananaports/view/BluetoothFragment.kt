@@ -36,8 +36,6 @@ class BluetoothFragment: Fragment() {
     private val deviceList: MutableList<BluetoothDeviceInfo> = ArrayList()
 
     private lateinit var bluetoothThreads: BluetoothThreads
-    private lateinit var bluetoothViewModel: BluetoothViewModel
-    private lateinit var bluetoothLiveData: MutableLiveData<String>
 
     private lateinit var textViewIsOn: TextView
     private lateinit var textViewIsDisc: TextView
@@ -67,6 +65,18 @@ class BluetoothFragment: Fragment() {
         broadcastRegister()
     }
 
+    @SuppressLint("MissingPermission")
+    override fun onResume() {
+        super.onResume()
+        bluetoothThreads = BluetoothThreads()
+        bluetoothThreads.start()
+
+    }
+    override fun onPause() {
+        super.onPause()
+        bluetoothThreads.interrupt()
+    }
+
     private fun initView(view: View) {
         textViewIsOn = view.findViewById(R.id.fragment_home_bluetooth_isOn)
         textViewIsDisc = view.findViewById(R.id.fragment_home_bluetooth_isDiscovering)
@@ -80,10 +90,8 @@ class BluetoothFragment: Fragment() {
         bluetoothAdapter = bluetoothManager.adapter
         textViewIsOn.text = STATE_OFF
         textViewIsDisc.text = NONSEARCH
-
-        bluetoothViewModel = ViewModelProvider(this)[BluetoothViewModel::class.java]
-        bluetoothLiveData = bluetoothViewModel.bluetoothDeviceName
     }
+
     @SuppressLint("MissingPermission")
     private fun setViewData() {
         buttonSwitch.setOnClickListener {
@@ -114,12 +122,6 @@ class BluetoothFragment: Fragment() {
             startActivity(intent)
         }
 
-        bluetoothViewModel.onState.observe(viewLifecycleOwner, Observer { state ->
-
-        })
-        bluetoothViewModel.onSearch.observe(viewLifecycleOwner, Observer { search ->
-
-        })
     }
 
     private fun broadcastRegister() {
@@ -158,18 +160,6 @@ class BluetoothFragment: Fragment() {
         requireActivity().registerReceiver(bluetoothStateReceiver,filterState)
         val filterDevice = IntentFilter(BluetoothDevice.ACTION_FOUND)
         requireActivity().registerReceiver(broadcastReceiver, filterDevice)
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun onResume() {
-        super.onResume()
-        bluetoothThreads = BluetoothThreads()
-        bluetoothThreads.start()
-
-    }
-    override fun onPause() {
-        super.onPause()
-        bluetoothThreads.interrupt()
     }
 
     inner class BluetoothThreads: Thread() {

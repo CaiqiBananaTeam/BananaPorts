@@ -176,7 +176,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="Button"
+        android:text="@string/fragment_wifi_connect"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@+id/port_state_wifi"
         app:layout_constraintEnd_toEndOf="parent"

@@ -8,7 +8,7 @@
     <string name="home_toolbar">BananaPorts</string>
     <string name="text_home_bar_bluetooth">Bluetooth</string>
     <string name="text_home_bar_wifi">Wifi</string>
-    <string name="text_home_bar_ports">Multiports</string>
+    <string name="text_home_bar_ports">Multi-port</string>
     <string name="text_home_bar_about">About</string>
 
     <string name="home_bluetooth_isOn">Bluetooth State</string>
