@@ -131,9 +131,8 @@
         app:layout_constraintTop_toBottomOf="@+id/fragment_home_bluetooth_switch"
         app:layout_constraintVertical_bias="0.36" />
 
-    <ListView
-        android:id="@+id/home_listview"
-        style="@android:style/Widget.Material.ListView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bluetooth_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

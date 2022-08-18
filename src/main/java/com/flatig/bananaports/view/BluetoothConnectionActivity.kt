@@ -31,7 +31,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
     private var numInt01: Int = 0
     private var numInt02: Int = 0
     private var message: String = ""
-    private val uuID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+    private val uuID = StaticSingleData.uuID
     private var sendDataThread: SendDataThread? = null
     private var receiveDataThread: ReceiveDataThread? = null
 
@@ -219,7 +219,6 @@ class BluetoothConnectionActivity : AppCompatActivity() {
 
         init {
             try {
-                inputStream = bluetoothSocket.inputStream
             } catch (e: IOException) {
                 e.printStackTrace()
             }

@@ -15,16 +15,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
-import com.flatig.bananaports.MainActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.flatig.bananaports.R
-import com.flatig.bananaports.logic.tools.BluetoothArrayAdapter
 import com.flatig.bananaports.logic.tools.BluetoothDeviceInfo
-import com.flatig.bananaports.logic.tools.StaticSingleData
-import com.flatig.bananaports.logic.viewmodel.BluetoothViewModel
+import com.flatig.bananaports.logic.tools.BluetoothRecyclerAdapter
 import kotlinx.coroutines.*
 
 class BluetoothFragment: Fragment() {
@@ -41,8 +36,8 @@ class BluetoothFragment: Fragment() {
     private lateinit var textViewIsDisc: TextView
     private lateinit var buttonSwitch: Button
     private lateinit var buttonDisc: Button
-    private lateinit var listView: ListView
-    private lateinit var listViewAdapter: BluetoothArrayAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewAdapter: BluetoothRecyclerAdapter
     private val STATE_ON: String = "ON"
     private val STATE_OFF: String = "OFF"
     private val SEARCHING: String = "Searching"
@@ -82,9 +77,11 @@ class BluetoothFragment: Fragment() {
         textViewIsDisc = view.findViewById(R.id.fragment_home_bluetooth_isDiscovering)
         buttonSwitch = view.findViewById(R.id.fragment_home_bluetooth_switch)
         buttonDisc = view.findViewById(R.id.fragment_home_bluetooth_discover)
-        listView = view.findViewById(R.id.home_listview)
-        listViewAdapter = BluetoothArrayAdapter(deviceList, requireActivity())
-        listView.adapter = listViewAdapter
+
+        recyclerView = view.findViewById(R.id.bluetooth_recycler)
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerViewAdapter = BluetoothRecyclerAdapter(deviceList)
+        recyclerView.adapter = recyclerViewAdapter
 
         bluetoothManager = requireActivity().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
@@ -94,6 +91,7 @@ class BluetoothFragment: Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun setViewData() {
+
         buttonSwitch.setOnClickListener {
             when (STATE) {
                 STATE_ON -> bluetoothAdapter.disable()
@@ -101,6 +99,7 @@ class BluetoothFragment: Fragment() {
                 STATE_OFF -> bluetoothAdapter.enable()
             }
         }
+
         buttonDisc.setOnClickListener {
             when (STATE_DISC) {
                 STATE_ON -> {
@@ -111,15 +110,6 @@ class BluetoothFragment: Fragment() {
                 }
             }
 
-        }
-        listView.setOnItemClickListener { _, _, position, _ ->
-            val deviceInfo = deviceList[position]
-            val intent = Intent(requireActivity(), BluetoothConnectionActivity::class.java)
-            StaticSingleData.bluetoothDeviceName = deviceInfo.deviceName.toString()
-            StaticSingleData.bluetoothDeviceAddress = deviceInfo.deviceAddress.toString()
-            intent.putExtra("device", deviceInfo.deviceName)
-            intent.putExtra("address",deviceInfo.deviceAddress)
-            startActivity(intent)
         }
 
     }
@@ -134,7 +124,7 @@ class BluetoothFragment: Fragment() {
             }
         }
         broadcastReceiver = object : BroadcastReceiver() {
-            @SuppressLint("MissingPermission")
+            @SuppressLint("MissingPermission", "NotifyDataSetChanged")
             override fun onReceive(p0: Context?, p1: Intent?) {
                 val action = p1?.action
                 if (BluetoothDevice.ACTION_FOUND == action) {
@@ -151,7 +141,7 @@ class BluetoothFragment: Fragment() {
                     }
                     if (!isAdded) {
                         deviceList.add(deviceInfo)
-                        listViewAdapter.notifyDataSetChanged()
+                        recyclerViewAdapter.notifyDataSetChanged()
                     }
                 }
             }
@@ -215,5 +205,5 @@ class BluetoothFragment: Fragment() {
             }
         }
     }
-}
 
+}

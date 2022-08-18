@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import kotlinx.coroutines.*
 import java.io.IOException
 import java.io.OutputStream
 import java.lang.Exception
+import java.net.ConnectException
 import java.net.InetSocketAddress
 import java.net.Socket
 
@@ -46,8 +48,6 @@ class WifiFragment: Fragment() {
     private lateinit var wifiSendDataThread: WifiSendDataThread
     private lateinit var wifiConnectThread: WifiConnect
     private lateinit var wifiThreads: WifiThreads
-    private val coroutineJob = Job()
-    private val coroutineScope = CoroutineScope(coroutineJob)
 
     private val defaultIP = "192.168.4.1"
     private val defaultPort = 8081
@@ -64,7 +64,6 @@ class WifiFragment: Fragment() {
     private var stringText02 = "01"
     private var stringText03 = "01"
     private var message = "01:01:01"
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -145,8 +144,12 @@ class WifiFragment: Fragment() {
             if (!connectState) {
                 try {
                     wifiConnectThread.start()
-                } catch (e: Exception) {
+                } catch (e: ConnectException) {
                     e.printStackTrace()
+                    Toast.makeText(requireActivity(), "Connect Failed", Toast.LENGTH_SHORT).show()
+                } catch (e: IllegalThreadStateException) {
+                    e.printStackTrace()
+                    Toast.makeText(requireActivity(), "Connecting!!! Please Wait", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -181,14 +184,7 @@ class WifiFragment: Fragment() {
             wifiEditData03.clearFocus()
         }
         wifiButtonDataSend.setOnClickListener {
-            coroutineScope.launch(Dispatchers.Default) {
-                try {
-                    Log.d("MES", message)
-                    sendMessage(message)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-            }
+            sendMessage(message)
         }
     }
 
@@ -208,8 +204,11 @@ class WifiFragment: Fragment() {
             super.run()
             try {
                 socket.connect(InetSocketAddress(figureIP, figurePort))
-            } catch (e: NetworkErrorException) {
+            } catch (e: ConnectException) {
                 e.printStackTrace()
+                Looper.prepare()
+                Toast.makeText(requireActivity(), "Connect Failed", Toast.LENGTH_SHORT).show()
+                Looper.loop()
             }
         }
     }
@@ -231,11 +230,13 @@ class WifiFragment: Fragment() {
                 while (!isInterrupted) {
                     try {
                         wifiState = wifiManager.wifiState
-                        if (wifiState == WifiManager.WIFI_STATE_ENABLED) requireActivity().runOnUiThread { textViewState.text = stateOn } else requireActivity().runOnUiThread { textViewState.text = stateOff }
+                        if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
+                            requireActivity().runOnUiThread { textViewState.text = stateOn }
+                        } else requireActivity().runOnUiThread { textViewState.text = stateOff }
                         connectState = socket.isConnected
-                        if (connectState) requireActivity().runOnUiThread { textConnectStatue.text = connectOn } else requireActivity().runOnUiThread { textConnectStatue.text = connectOff }
-
-                        Thread.sleep(200)
+                        if (connectState) requireActivity().runOnUiThread { textConnectStatue.text = connectOn }
+                        else requireActivity().runOnUiThread { textConnectStatue.text = connectOff }
+                        Thread.sleep(100)
                     }catch (e: InterruptedException) {
                         e.printStackTrace()
                         break
@@ -256,10 +257,9 @@ class WifiFragment: Fragment() {
     }
     override fun onPause() {
         super.onPause()
-        coroutineJob.cancel()
+        wifiThreads.interrupt()
         wifiSendDataThread.interrupt()
         wifiConnectThread.interrupt()
-        wifiThreads.interrupt()
     }
 
 }
