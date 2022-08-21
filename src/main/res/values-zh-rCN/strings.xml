@@ -43,4 +43,6 @@
     <string name="text_home_bar_ports">多连接</string>
     <string name="bluetooth_name">蓝牙名称</string>
     <string name="bluetooth_mac">设备地址</string>
+    <string name="port_start_send">开始发送</string>
+    <string name="port_stop_send">停止发送</string>
 </resources>

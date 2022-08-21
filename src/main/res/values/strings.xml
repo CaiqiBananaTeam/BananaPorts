@@ -44,5 +44,7 @@
     <string name="about_user_policy">User Policy</string>
     <string name="bluetooth_name">Name</string>
     <string name="bluetooth_mac">Address</string>
+    <string name="port_start_send">Start</string>
+    <string name="port_stop_send">Stop</string>
 
 </resources>

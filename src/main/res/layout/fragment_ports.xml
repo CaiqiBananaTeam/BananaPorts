@@ -8,7 +8,7 @@
     <NumberPicker
         android:id="@+id/port_picker3"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/port_picker1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +20,7 @@
     <NumberPicker
         android:id="@+id/port_picker2"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/port_picker1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -237,8 +237,10 @@
 
     <SeekBar
         android:id="@+id/port_seekbar1"
-        android:layout_width="140dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:max="127"
         android:min="-128"
         android:rotation="-90"
@@ -246,13 +248,15 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/port_seektext1"
-        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintVertical_bias="0.28"
         tools:ignore="UnusedAttribute" />
 
     <SeekBar
         android:id="@+id/port_seekbar2"
-        android:layout_width="140dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:max="127"
         android:min="-128"
         app:layout_constraintBottom_toBottomOf="@+id/port_seekbar1"
@@ -264,7 +268,7 @@
     <NumberPicker
         android:id="@+id/port_picker1"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_height="120dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -289,7 +293,6 @@
         android:id="@+id/port_text_wifi_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/port_picker3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/port_picker3"
@@ -302,7 +305,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Button"
+        android:text="@string/string_send"
         android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/divider9"
         app:layout_constraintEnd_toEndOf="parent"
@@ -316,7 +319,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
@@ -329,7 +331,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/port_seektext1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -341,14 +342,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:text="Button"
+        android:text="@string/port_start_send"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/port_seekbar1"
-        app:layout_constraintVertical_bias="0.28" />
+        app:layout_constraintVertical_bias="0.30" />
 
     <Button
         android:id="@+id/port_button_bluetooth_stop"
@@ -357,11 +359,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="Button"
+        android:text="@string/port_stop_send"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@+id/port_button_bluetooth_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/port_button_bluetooth_send" />
+
+    <TextView
+        android:id="@+id/port_bluetooth_msgtext"
+        android:layout_width="56dp"
+        android:layout_height="19dp"
+        app:layout_constraintBottom_toBottomOf="@+id/port_seektext1"
+        app:layout_constraintEnd_toStartOf="@+id/port_seektext2"
+        app:layout_constraintStart_toEndOf="@+id/port_seektext1"
+        app:layout_constraintTop_toTopOf="@+id/port_seektext1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
