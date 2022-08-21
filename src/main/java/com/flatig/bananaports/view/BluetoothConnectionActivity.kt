@@ -191,7 +191,6 @@ class BluetoothConnectionActivity : AppCompatActivity() {
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
-
         }
     }
     inner class ReceiveDataThread: Thread() {

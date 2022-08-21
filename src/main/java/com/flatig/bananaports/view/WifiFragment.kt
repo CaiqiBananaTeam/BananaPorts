@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.flatig.bananaports.R
 import com.flatig.bananaports.logic.tools.IsStringIPv4
 import com.flatig.bananaports.logic.tools.StaticSingleData
@@ -24,6 +25,7 @@ import java.io.OutputStream
 import java.lang.Exception
 import java.net.ConnectException
 import java.net.InetSocketAddress
+import java.net.NoRouteToHostException
 import java.net.Socket
 
 class WifiFragment: Fragment() {
@@ -45,7 +47,6 @@ class WifiFragment: Fragment() {
     private var socket = Socket()
     private lateinit var wifiManager: WifiManager
     private lateinit var outputStream: OutputStream
-    private lateinit var wifiSendDataThread: WifiSendDataThread
     private lateinit var wifiConnectThread: WifiConnect
     private lateinit var wifiThreads: WifiThreads
 
@@ -184,7 +185,9 @@ class WifiFragment: Fragment() {
             wifiEditData03.clearFocus()
         }
         wifiButtonDataSend.setOnClickListener {
-            sendMessage(message)
+            lifecycleScope.launch(Dispatchers.IO) {
+                sendMessage(message)
+            }
         }
     }
 
@@ -209,17 +212,16 @@ class WifiFragment: Fragment() {
                 Looper.prepare()
                 Toast.makeText(requireActivity(), "Connect Failed", Toast.LENGTH_SHORT).show()
                 Looper.loop()
-            }
-        }
-    }
-    inner class WifiSendDataThread: Thread() {
-        override fun run() {
-            super.run()
-            try {
-                sendMessage(message)
-            } catch (e: IOException) {
+            } catch (e: IllegalThreadStateException) {
                 e.printStackTrace()
-                socket.close()
+                Looper.prepare()
+                Toast.makeText(requireActivity(), "Connecting!!! Please Wait", Toast.LENGTH_SHORT).show()
+                Looper.loop()
+            } catch (e: NoRouteToHostException) {
+                e.printStackTrace()
+                Looper.prepare()
+                Toast.makeText(requireActivity(), "Wifi OFF!!!", Toast.LENGTH_SHORT).show()
+                Looper.loop()
             }
         }
     }
@@ -252,13 +254,11 @@ class WifiFragment: Fragment() {
         super.onStart()
         wifiThreads = WifiThreads()
         wifiThreads.start()
-        wifiSendDataThread = WifiSendDataThread()
         wifiConnectThread = WifiConnect()
     }
     override fun onPause() {
         super.onPause()
         wifiThreads.interrupt()
-        wifiSendDataThread.interrupt()
         wifiConnectThread.interrupt()
     }
 

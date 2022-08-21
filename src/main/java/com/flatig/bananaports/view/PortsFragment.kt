@@ -135,6 +135,8 @@ class PortsFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+            } catch (e: IllegalThreadStateException) {
+                e.printStackTrace()
             }
         }
     }
