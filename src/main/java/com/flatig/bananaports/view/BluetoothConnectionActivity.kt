@@ -57,14 +57,11 @@ class BluetoothConnectionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bluetooth_connection)
         initView()
         connectDevices()
-
     }
 
     // Initial the view to make code clean
     private fun initView() {
-        val intent = intent
-//        deviceName = intent.getStringExtra("device").toString()
-//        deviceAddress = intent.getStringExtra("address").toString()
+
         deviceName = StaticSingleData.bluetoothDeviceName
         deviceAddress = StaticSingleData.bluetoothDeviceAddress
 
@@ -90,6 +87,9 @@ class BluetoothConnectionActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(p0: SeekBar?) {
             }
             override fun onStopTrackingTouch(p0: SeekBar?) {
+                if ((-32 < seekBar1.progress) and (seekBar1.progress < 32)) {
+                    seekBar1.progress = 0
+                }
                 numInt01 = seekBar1.progress
                 textView01.text = numInt01.toString()
             }
@@ -104,6 +104,9 @@ class BluetoothConnectionActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(p0: SeekBar?) {
             }
             override fun onStopTrackingTouch(p0: SeekBar?) {
+                if ((-40 < seekBar2.progress) and (seekBar2.progress < 40)) {
+                    seekBar2.progress = 0
+                }
                 numInt02 = seekBar2.progress
                 textView02.text = numInt02.toString()
             }
@@ -112,7 +115,13 @@ class BluetoothConnectionActivity : AppCompatActivity() {
 
     }
 
-    // Make connection to get Bluetooth Sockets
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sendDataThread?.interrupt()
+        receiveDataThread?.interrupt()
+    }
+
     @SuppressLint("MissingPermission")
     private fun connectDevices() {
         bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -136,14 +145,6 @@ class BluetoothConnectionActivity : AppCompatActivity() {
         }
 
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        sendDataThread?.interrupt()
-        receiveDataThread?.interrupt()
-    }
-
-    // Function to send message
     private fun sendMessage(content: String) {
         if (bluetoothSocket.isConnected) {
             try {
@@ -182,7 +183,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
                     try {
                         message = "$stringT01:$stringT02"
                         sendMessage(message)
-                        Thread.sleep(75)
+                        Thread.sleep(50)
                     } catch (e: InterruptedException) {
                         e.printStackTrace()
                         break
@@ -194,7 +195,7 @@ class BluetoothConnectionActivity : AppCompatActivity() {
         }
     }
     inner class ReceiveDataThread: Thread() {
-        private var inputStream: InputStream? = null
+        private var inputStream = bluetoothSocket.inputStream
         override fun run() {
             super.run()
             try {
@@ -204,7 +205,8 @@ class BluetoothConnectionActivity : AppCompatActivity() {
                         inputStream!!.read(buffer)
                         val a = String(buffer, 0, buffer.size, charset("US-ASCII"))
                         runOnUiThread { textViewContent.append(a) }
-                        Thread.sleep(500)
+                        Thread.sleep(1000)
+                        runOnUiThread { textViewContent.setText("") }
                     } catch (e: InterruptedException) {
                         e.printStackTrace()
                         break
